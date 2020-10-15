@@ -30,23 +30,16 @@ Eigen::Matrix4d PandaRobotModel::forwardKinematicsDH(Eigen::MatrixXd q)
     Eigen::Matrix4d T1_2 = getTransformation(-(M_PI/2),0,0,q(1));
     Eigen::Matrix4d T2_3 = getTransformation((M_PI/2),0,0.3160,q(2));
     Eigen::Matrix4d T3_4 = getTransformation((M_PI/2),0.0825,0,q(3));
-    Eigen::Matrix4d T4_5 = getTransformation(-(M_PI/2),-0.0825,0.384,q(4));
+    Eigen::Matrix4d T4_5 = getTransformation(-(M_PI/2),-0.0825,0.3840,q(4));
     Eigen::Matrix4d T5_6 = getTransformation((M_PI/2),0,0,q(5));
     Eigen::Matrix4d T6_7 = getTransformation((M_PI/2),0.0880,0,q(6));
     Eigen::Matrix4d T7_b = getTransformation(0,0,0.1070,0);
 
-    Eigen::Matrix4d res = Ts_1;
-    res = res*T1_2;
-    res = res*T2_3;
-    res = res*T3_4;
-    res = res*T4_5;
-    res = res*T5_6;
-    res = res*T6_7;
-    res = res*T7_b;
+    Eigen::Matrix4d links = (((((T1_2 * T2_3) * T3_4) * T4_5) * T5_6) * T6_7);
     
+    Eigen::Matrix4d res = (Ts_1 * links) * T7_b;
 
 
     return res;
 }
-
 
